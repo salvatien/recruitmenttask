@@ -38,24 +38,32 @@ public class SimpleGame implements Game{
         user.setLives(1);
     }
 
-    public void firstPhase() {
+    private void firstPhase() {
         while(!boxes.isEmpty() && user.getLives() > 0) {
             Reward reward = openBox( new Random().nextInt(boxes.size()), false);
             claimReward(reward);
         }
     }
 
-    public void afterGameCleanUp() {
+    void afterGameCleanUp() {
         this.user.resetWallet();
         isSecondChanceAlreadyUsed = false;
     }
 
-    public void endGamePhase() {
+    private void endGamePhase() {
         Reward reward = openBox( new Random().nextInt(endGameBoxes.size()), true);
         claimReward(reward);
     }
 
-    public Reward openBox(int numberOfBox, boolean isEndGameReward) throws IndexOutOfBoundsException {
+    int getAmountOfBoxesLeftToOpen() {
+        return boxes.size();
+    }
+
+    public int getAmountOfEndGameBoxesLeftToOpen() {
+        return endGameBoxes.size();
+    }
+
+    Reward openBox(int numberOfBox, boolean isEndGameReward) throws IndexOutOfBoundsException {
         Box openedBox;
         if(isEndGameReward) {
             if(numberOfBox > endGameBoxes.size())
@@ -72,7 +80,7 @@ public class SimpleGame implements Game{
         return receivedReward;
     }
 
-    public void claimReward(Reward reward) {
+    void claimReward(Reward reward) {
         if(reward instanceof CashReward) {
             user.addToWallet(((CashReward)reward).getCashAmount());
         }
