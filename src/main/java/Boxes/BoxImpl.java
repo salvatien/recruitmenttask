@@ -1,6 +1,5 @@
 package Boxes;
 
-import Rewards.CashReward;
 import Rewards.Reward;
 
 public class BoxImpl implements Box {
